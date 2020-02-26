@@ -1,3 +1,11 @@
+***
+
+Hey there! Thanks for the interest in this fork of wingpanel-indicator-ayatana. Unfortunately, between classes and other time-consuming matters, I haven't had the chance to work on this in a long time. If you're looking for a version that fixes and updates some more things, please check out the fork at:
+
+https://github.com/lafydev/wingpanel-indicator-ayatana
+
+***
+
 # Wingpanel Ayatana-Compatibility Indicator (Community Version)
 A compatibility plug-in that enables ayatana indicators on Wingpanel.
 
