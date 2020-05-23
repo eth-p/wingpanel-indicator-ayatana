@@ -32,7 +32,7 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
     private Gee.HashMap<Gtk.Widget, Gtk.Widget> menu_map;
 	private Gee.HashMap<Gtk.Widget, Gtk.Widget> submenu_map;
 	
-    const int MAX_ICON_SIZE = 24;
+    const int MAX_ICON_SIZE = 20;
     
 	//grouping radio buttons
 	private Gtk.RadioButton? group_radio=null ;
@@ -403,10 +403,11 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
     private void ensure_max_size (Gtk.Image image) {
         var pixbuf = image.pixbuf;
 
-        if (pixbuf != null && pixbuf.get_height () > MAX_ICON_SIZE) {
+        if (pixbuf != null && pixbuf.get_height () != MAX_ICON_SIZE) {
 			//scale_simple(dest_width,dest_height,interp)
-            image.pixbuf = pixbuf.scale_simple ((int)((double)MAX_ICON_SIZE / pixbuf.get_height () * pixbuf.get_width ()),
-            MAX_ICON_SIZE, Gdk.InterpType.HYPER);
+            image.pixbuf = pixbuf.scale_simple (
+                (int)((double)MAX_ICON_SIZE / pixbuf.get_height () * pixbuf.get_width ()),
+            	MAX_ICON_SIZE, Gdk.InterpType.HYPER);
         }
     }
 }
