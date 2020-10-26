@@ -11,10 +11,25 @@ let these indicators appear in your panel.
 
 <h2>Parameters for Pantheon (eos)</h2>
 2. You need to add Pantheon to the list of desktops abled to work with indicators:
+<b>With autostart (thanks to JMoerman) </b>
+just add /usr/lib/x86_64-linux-gnu/indicator-application/indicator-application-service as custom command to the auto start applications in the system settings.
+System settings -> "Applications" -> "Startup" -> "Add Startup App…" -> "Type in a custom command".
+No need for manually editing files using root and no risks of .desktop files being overwritten.
+<br/>
+
+<b>With the terminal (thanks to ankurk91) </b>
+Open Terminal and run the following commands.
+<pre>mkdir -p ~/.config/autostart
+cp /etc/xdg/autostart/indicator-application.desktop ~/.config/autostart/
+sed -i 's/^OnlyShowIn.*/OnlyShowIn=Unity;GNOME;Pantheon;/' ~/.config/autostart/indicator-application.desktop
+</pre><br/>
+
+<b>Editing files (more risks)</b>
 <pre>sudo nano /etc/xdg/autostart/indicator-application.desktop</pre>
 Search the parameter: OnlyShowIn= and add "Pantheon" at the end of the line : 
 <pre>OnlyShowIn=Unity;GNOME;Pantheon;</pre>
 Save your changes (Ctrl+X to quit + Y(es) save the changes + Enter to valid the filename).<br/>
+
 
 3.<b>reboot</b>.
 
