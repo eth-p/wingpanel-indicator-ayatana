@@ -122,6 +122,7 @@ public class AyatanaCompatibility.MetaIndicator : Wingpanel.Indicator {
         foreach (var entry in get_restrictions_from_file (blacklist_file)) {
             blacklist.add (entry);
         }
+        blacklist.add("nm-applet"); //old network indicator (duplicate)
     }
 
     private string[] get_restrictions_from_file (File file) {

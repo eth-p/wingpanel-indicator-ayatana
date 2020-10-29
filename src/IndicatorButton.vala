@@ -31,9 +31,12 @@ public class AyatanaCompatibility.IndicatorButton : Gtk.Box {
         // Fix padding.
         Gtk.StyleContext style = get_style_context ();
         Gtk.CssProvider provider = new Gtk.CssProvider ();
-
-        provider.load_from_data (".ayatana-indicator { padding: 0px; }");
-
+		//catch GLib error
+		try {
+			provider.load_from_data (".ayatana-indicator { padding: 0px; }");
+		} catch (Error e) {
+                warning (e.message);
+        }
         style.add_provider (provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
         style.add_class ("ayatana-indicator");
     }
