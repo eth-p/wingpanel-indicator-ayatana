@@ -1,13 +1,28 @@
 # Wingpanel Ayatana-Compatibility Indicator (Community Version)
+
 <h1>Description:</h1>
 Keep compatibility with ubuntu/unity indicators on Elementary OS wingpanel.
 If you want to install applications with indicators like weather forecast, redshift... this plug-in 
-let these indicators appear in your panel. 
+let these indicators appear in your panel.
 
 <p align="center"><img src="screenshot.png"/> </p>
 
-<h1>Easy Install (user only)</h1>
+<h2>Dependencies</h2>
+
+You'll need the following dependencies :
+
+<pre>sudo apt-get install libglib2.0-dev libgranite-dev libindicator3-dev </pre>
+
+- Version Juno(5) or previous :
+  
+  <pre>sudo apt-get install libwingpanel-2.0-dev</pre>
+- version odin(6) : 
+  
+  <pre>sudo apt-get install libwingpanel-dev indicator-application</pre>
+
+<h1>Easy Install on Hera (user only)</h1>
 1. Download the deb file (zip) and launch install<br/>
+<pre>sudo dpkg -i ./com.github.lafydev.wingpanel*.deb</pre>
 
 <h2>Parameters for Pantheon (eos)</h2>
 2. You need to add Pantheon to the list of desktops abled to work with indicators:<br/>
@@ -35,16 +50,14 @@ Save your changes (Ctrl+X to quit + Y(es) save the changes + Enter to valid the 
 3.<b>reboot</b>.
 
 <h1>Build and install (developer)</h1>
+
+1. Download the last release (zip) and extract files 
+
 <h2>Dependencies</h2>
-
-1. You'll need the following dependencies to build :
-
-<pre>sudo apt-get install libglib2.0-dev libgranite-dev libindicator3-dev 
-sudo apt-get install libwingpanel-2.0-dev valac gcc meson </pre/>
+2. You'll need all the dependencies from easy install and these to build : 
+<pre>sudo apt-get install valac gcc meson </pre/>
 
 <h2>Build with meson</h2>
-
-2. Download the last release (zip) and extract files<br/>
 3. Open a Terminal in the extracted folder, build your application with meson and install it with ninja:<br/>
 
 <pre>meson build --prefix=/usr
@@ -57,6 +70,8 @@ sudo ninja install
 
 <h2>uninstall</h2>
 Open a terminal in the build folder.
-<pre>sudo ninja uninstall
-killall wingpanel
-</pre>
+<pre>sudo ninja uninstall</pre>
+
+Reboot or restart wingpanel : 
+Version Juno(5) or previous:  <pre>killall wingpanel</pre>
+Version Odin(6): <pre>killall io.elementary.wingpanel</pre>
