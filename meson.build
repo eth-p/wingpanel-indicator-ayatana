@@ -15,15 +15,18 @@ sources = [
     'src/IndicatorObject.vala',
     'src/SubMenuButton.vala',
 ]
-
+ wingpanel= dependency('wingpanel-2.0',required : false)
+ if not wingpanel.found()
+      wingpanel = dependency('wingpanel',required : true)
+    endif
 dependencies = {
     'granite':    dependency('granite'),
     'indicator3': dependency('indicator3-0.4'),
-    'wingpanel2': dependency('wingpanel-2.0')
+    'wingpanel': wingpanel
 }
 
 indicator_name = 'ayatana'
-indicator_dir  = dependencies['wingpanel2'].get_pkgconfig_variable('indicatorsdir')
+indicator_dir  = dependencies['wingpanel'].get_pkgconfig_variable('indicatorsdir')
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Bindings:
