@@ -222,7 +222,7 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
     private Gtk.Widget? convert_menu_widget (Gtk.Widget item) {
         /* separator are GTK.SeparatorMenuItem, return a separator */
         if (item is Gtk.SeparatorMenuItem) {
-            var separator =  new Wingpanel.Widgets.Separator ();
+            var separator =  new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
 
             connect_signals (item, separator);
 			group_radio = null; 
@@ -264,21 +264,25 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
         }
 
         if (item_type == ATK_CHECKBOX) {
-            var button = new Wingpanel.Widgets.Switch (label, active);
-            // b=bool
-            button.get_switch ().state_set.connect ((b) => {
-                (item as Gtk.CheckMenuItem).set_active (b);
-                close ();
-                return false;
+			var box_switch = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 5);
+			var lbl = new Gtk.Label (label);
+            var button = new Gtk.Switch ();
+			box_switch.pack_start (lbl, true, true, 5);
+			box_switch.pack_end (button, false, false, 5);
+			lbl.set_halign (Gtk.Align.START); 
+			lbl.margin_start = 6;
+			
+            button.activate.connect (() => {
+                (item as Gtk.CheckMenuItem).set_active (active);
             });
-            button.set_state_flags(state,false);
+            button.set_state_flags (state, true);
             
             connect_signals (item, button);
             (item as Gtk.CheckMenuItem).toggled.connect (() => {
                 button.active = ((item as Gtk.CheckMenuItem).get_active ());
             });
 
-            return button;
+            return box_switch;
         }
 
         //RADIO BUTTON
@@ -289,7 +293,7 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
             button.set_margin_start(10);
 			button.set_active(active);
 			
-			button.clicked.connect (() => {
+			button.toggled.connect (() => {
                     item.activate ();
                 });
            //concern only visible underlying menu (debug) 
