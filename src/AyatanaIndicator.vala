@@ -271,9 +271,11 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
 			lbl.set_halign (Gtk.Align.START); 
 			lbl.margin_start = 6;
 			//init
-			button.active= ((Gtk.CheckMenuItem)item).get_active ();
-            button.activate.connect (() => {
-                (item as Gtk.CheckMenuItem).set_active (button.active);
+			var active= ((Gtk.CheckMenuItem)item).get_active ();
+			button.set_active(active);
+            button.state_set.connect ((b) => {
+                ((Gtk.CheckMenuItem)item).set_active (b);
+				return(false);
             });
             
             connect_signals (item, button);
