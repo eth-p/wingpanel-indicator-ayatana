@@ -230,9 +230,9 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
         }
 
         /* all other items are genericmenuitems */
-        string label = (item as Gtk.MenuItem).get_label ();
-        label = label.replace ("_", "");
-
+		string label = ((Gtk.MenuItem)item).get_label ();
+    	label = label.replace ("_", "");
+		
         /*
          * get item type from atk accessibility
          * 34 = MENU_ITEM  8 = CHECKBOX  32 = SUBMENU 44 = RADIO
@@ -246,8 +246,7 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
         var item_type = val.get_int ();
 
         var state = item.get_state_flags ();
-        // concern radiobuttons too 
-        var active = (item as Gtk.CheckMenuItem).get_active ();
+        
 		//RAZ group_radio
         group_radio = ( item_type == ATK_RADIO)? group_radio:null;
 		
@@ -271,15 +270,15 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
 			box_switch.pack_end (button, false, false, 5);
 			lbl.set_halign (Gtk.Align.START); 
 			lbl.margin_start = 6;
-			
+			//init
+			button.active= ((Gtk.CheckMenuItem)item).get_active ();
             button.activate.connect (() => {
-                (item as Gtk.CheckMenuItem).set_active (active);
+                (item as Gtk.CheckMenuItem).set_active (button.active);
             });
-            button.set_state_flags (state, true);
             
             connect_signals (item, button);
-            (item as Gtk.CheckMenuItem).toggled.connect (() => {
-                button.active = ((item as Gtk.CheckMenuItem).get_active ());
+            ((Gtk.CheckMenuItem)item).toggled.connect (() => {
+                button.active = ((Gtk.CheckMenuItem)item).get_active ();
             });
 
             return box_switch;
@@ -291,6 +290,7 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
 			if (group_radio==null) {group_radio=button;}
 			button.margin = 5;
             button.set_margin_start(10);
+			var active = ((Gtk.CheckMenuItem)item).get_active ();
 			button.set_active(active);
 			
 			button.toggled.connect (() => {
