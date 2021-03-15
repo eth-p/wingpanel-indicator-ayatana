@@ -20,7 +20,10 @@ You'll need the following dependencies :
   <pre>sudo apt-get install libwingpanel-dev indicator-application</pre>
 
 <h1>Easy Install (user only)</h1>
-1. Download the deb file and launch install<br/>
+1. Download the deb file from your version :
+- com.github.*amd64.deb for hera and previous OR 
+- com.github.*odin.deb ) 
+and launch install:<br/>
 <pre>sudo dpkg -i ./com.github.lafydev.wingpanel*.deb</pre>
 
 <h2>Parameters for Pantheon (eos)</h2>
