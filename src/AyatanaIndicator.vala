@@ -252,7 +252,7 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
 		
         /* detect if it has a image */
         Gtk.Image? image = null;
-        var child = (item as Gtk.Bin).get_child ();
+        var child = ((Gtk.Bin)item).get_child ();
 
         if (child != null) {
             if (child is Gtk.Image) {
@@ -322,19 +322,19 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
             button = new Gtk.ModelButton();
             button.text=label;
 			if (image != null && image.pixbuf != null) {
-                (button as Gtk.ModelButton).icon= (image.pixbuf);
+                button.icon= (image.pixbuf);
             } 
             if (item_type == ATK_RADIO) {
 				button.role=Gtk.ButtonRole.RADIO;
-				button.active = (item as Gtk.RadioMenuItem).get_active ();
+				button.active = ((Gtk.RadioMenuItem)item).get_active ();
 			}
-            (item as Gtk.CheckMenuItem).notify["label"].connect (() => {
-                (button as Gtk.ModelButton).text= ((item as Gtk.MenuItem).get_label ().replace ("_", ""));
+            ((Gtk.CheckMenuItem)item).notify["label"].connect (() => {
+                button.text= ((Gtk.MenuItem)item).get_label ().replace ("_", "");
             });
 
 			button.set_state_flags(state,true); 
 			
-            var submenu = (item as Gtk.MenuItem).submenu;
+            var submenu = ((Gtk.MenuItem)item).submenu;
 
             if (submenu != null) {
                 var scroll_sub = new Gtk.ScrolledWindow (null, null);
