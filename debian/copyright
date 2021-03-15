@@ -4,9 +4,11 @@ Source: https://github.com/lafydev/wingpanel-indicator-ayatana
 
 Files: *
 Copyright: 2015-2016 Djax <parnold@gmx.de>
-    2020 Lafydev <laurencef15@gmail.com>
+    2016-2020 Elementary
+    2018 Ethan P. 
+    2020 Lafydev <lafy@mailo.com>
 License: GPL-3.0+
-
+ 
 Files: debian/*
 Copyright: 2015 Cody Garver <cody@elementary.io>
     2021 Sean Davis <smd.seandavis@gmail.com>

@@ -2,8 +2,7 @@
 
 <h1>Description:</h1>
 Keep compatibility with ubuntu/unity indicators on Elementary OS wingpanel.
-If you want to install applications with indicators like weather forecast, redshift... this plug-in 
-let these indicators appear in your panel.
+If you want to install applications with indicators like weather forecast, redshift, social networks... this plug-in let these indicators appear in your panel.
 
 <p align="center"><img src="screenshot.png"/> </p>
 
@@ -13,15 +12,15 @@ You'll need the following dependencies :
 
 <pre>sudo apt-get install libglib2.0-dev libgranite-dev libindicator3-dev </pre>
 
-- Version Juno(5) or previous :
+- Version Hera(5) and previous :
   
   <pre>sudo apt-get install libwingpanel-2.0-dev</pre>
 - version odin(6) : 
   
   <pre>sudo apt-get install libwingpanel-dev indicator-application</pre>
 
-<h1>Easy Install on Hera (user only)</h1>
-1. Download the deb file (zip) and launch install<br/>
+<h1>Easy Install (user only)</h1>
+1. Download the deb file and launch install<br/>
 <pre>sudo dpkg -i ./com.github.lafydev.wingpanel*.deb</pre>
 
 <h2>Parameters for Pantheon (eos)</h2>
@@ -30,7 +29,6 @@ You'll need the following dependencies :
 <li>With autostart (thanks to JMoerman) </li>
 just add /usr/lib/x86_64-linux-gnu/indicator-application/indicator-application-service as custom command to the auto start applications in the system settings.
 System settings -> "Applications" -> "Startup" -> "Add Startup App…" -> "Type in a custom command".
-No need for manually editing files using root and no risks of .desktop files being overwritten.
 <br/>
 
 <li>With the terminal (thanks to ankurk91) </li>
@@ -40,7 +38,7 @@ cp /etc/xdg/autostart/indicator-application.desktop ~/.config/autostart/
 sed -i 's/^OnlyShowIn.*/OnlyShowIn=Unity;GNOME;Pantheon;/' ~/.config/autostart/indicator-application.desktop
 </pre><br/>
 
-<li>Editing files (more risks)</li>
+<li>Editing files (change system settings!)</li>
 <pre>sudo nano /etc/xdg/autostart/indicator-application.desktop</pre>
 Search the parameter: OnlyShowIn= and add "Pantheon" at the end of the line : 
 <pre>OnlyShowIn=Unity;GNOME;Pantheon;</pre>
@@ -73,5 +71,5 @@ Open a terminal in the build folder.
 <pre>sudo ninja uninstall</pre>
 
 Reboot or restart wingpanel : 
-Version Juno(5) or previous:  <pre>killall wingpanel</pre>
+Version Hera(5) and previous:  <pre>killall wingpanel</pre>
 Version Odin(6): <pre>killall io.elementary.wingpanel</pre>
