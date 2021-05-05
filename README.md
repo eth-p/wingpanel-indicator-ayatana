@@ -6,6 +6,8 @@ If you want to install applications with indicators like weather forecast, redsh
 
 <p align="center"><img src="screenshot.png"/> </p>
 
+<b>Important:</b> To add support for Legacy icons (Wine, PlayOnLinux) see here : <a href="https://github.com/msmaldi/wingpanel-indicator-na-tray">msmaldi/wingpanel-indicator-na-tray</a>
+
 <h2>Dependencies</h2>
 
 You'll need the following dependencies :
@@ -15,19 +17,23 @@ You'll need the following dependencies :
 - Version Hera(5) and previous :
   
   <pre>sudo apt-get install libwingpanel-2.0-dev</pre>
+
 - version odin(6) : 
   
   <pre>sudo apt-get install libwingpanel-dev indicator-application</pre>
 
 <h1>Easy Install (user only)</h1>
 1. Download the deb file from your version :
+
 - com.github.*amd64.deb for hera and previous OR 
-- com.github.*odin.deb ) 
+- com.github.*odin.deb  
+
 and launch install:<br/>
+
 <pre>sudo dpkg -i ./com.github.lafydev.wingpanel*.deb</pre>
 
 <h2>Parameters for Pantheon (eos)</h2>
-2. You need to add Pantheon to the list of desktops abled to work with indicators:<br/>
+2. You need to add Pantheon to the list of desktops abled to work with indicators<a :<br/>
 <ul>
 <li>With autostart (thanks to JMoerman) </li>
 just add /usr/lib/x86_64-linux-gnu/indicator-application/indicator-application-service as custom command to the auto start applications in the system settings.
