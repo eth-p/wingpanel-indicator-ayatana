@@ -44,9 +44,8 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
             name_hint = current_time.hash ().to_string ();
         }
 
-        Object (code_name: "%s%s".printf ("ayatana-", name_hint),
-                display_name: "%s%s".printf ("ayatana-", name_hint),
-                description: _("Ayatana compatibility indicator"));
+        Object (code_name: "%s%s".printf ("ayatana-", name_hint));
+
         this.entry = entry;
         this.indicator = indicator;
         this.parent_object = obj;
@@ -223,7 +222,7 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
     private Gtk.Widget? convert_menu_widget (Gtk.Widget item) {
         /* separator are GTK.SeparatorMenuItem, return a separator */
         if (item is Gtk.SeparatorMenuItem) {
-            var separator =  new Wingpanel.Widgets.Separator ();
+            var separator =  new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
 
             connect_signals (item, separator);
 			group_radio = null; 
@@ -231,9 +230,9 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
         }
 
         /* all other items are genericmenuitems */
-        string label = (item as Gtk.MenuItem).get_label ();
-        label = label.replace ("_", "");
-
+		string label = ((Gtk.MenuItem)item).get_label ();
+    	label = label.replace ("_", "");
+		
         /*
          * get item type from atk accessibility
          * 34 = MENU_ITEM  8 = CHECKBOX  32 = SUBMENU 44 = RADIO
@@ -247,14 +246,13 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
         var item_type = val.get_int ();
 
         var state = item.get_state_flags ();
-        // concern radiobuttons too 
-        var active = (item as Gtk.CheckMenuItem).get_active ();
+        
 		//RAZ group_radio
         group_radio = ( item_type == ATK_RADIO)? group_radio:null;
 		
         /* detect if it has a image */
         Gtk.Image? image = null;
-        var child = (item as Gtk.Bin).get_child ();
+        var child = ((Gtk.Bin)item).get_child ();
 
         if (child != null) {
             if (child is Gtk.Image) {
@@ -265,21 +263,27 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
         }
 
         if (item_type == ATK_CHECKBOX) {
-            var button = new Wingpanel.Widgets.Switch (label, active);
-            // b=bool
-            button.get_switch ().state_set.connect ((b) => {
-                (item as Gtk.CheckMenuItem).set_active (b);
-                close ();
-                return false;
+			var box_switch = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 5);
+			var lbl = new Gtk.Label (label);
+            var button = new Gtk.Switch ();
+			box_switch.pack_start (lbl, true, true, 5);
+			box_switch.pack_end (button, false, false, 5);
+			lbl.set_halign (Gtk.Align.START); 
+			lbl.margin_start = 6;
+			//init
+			var active= ((Gtk.CheckMenuItem)item).get_active ();
+			button.set_active(active);
+            button.state_set.connect ((b) => {
+                ((Gtk.CheckMenuItem)item).set_active (b);
+				return(false);
             });
-            button.set_state_flags(state,false);
             
             connect_signals (item, button);
-            (item as Gtk.CheckMenuItem).toggled.connect (() => {
-                button.active = ((item as Gtk.CheckMenuItem).get_active ());
+            ((Gtk.CheckMenuItem)item).toggled.connect (() => {
+                button.active = ((Gtk.CheckMenuItem)item).get_active ();
             });
 
-            return button;
+            return box_switch;
         }
 
         //RADIO BUTTON
@@ -288,9 +292,10 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
 			if (group_radio==null) {group_radio=button;}
 			button.margin = 5;
             button.set_margin_start(10);
+			var active = ((Gtk.CheckMenuItem)item).get_active ();
 			button.set_active(active);
 			
-			button.clicked.connect (() => {
+			button.toggled.connect (() => {
                     item.activate ();
                 });
            //concern only visible underlying menu (debug) 
@@ -317,19 +322,19 @@ public class AyatanaCompatibility.Indicator : Wingpanel.Indicator {
             button = new Gtk.ModelButton();
             button.text=label;
 			if (image != null && image.pixbuf != null) {
-                (button as Gtk.ModelButton).icon= (image.pixbuf);
+                button.icon= (image.pixbuf);
             } 
             if (item_type == ATK_RADIO) {
 				button.role=Gtk.ButtonRole.RADIO;
-				button.active = (item as Gtk.RadioMenuItem).get_active ();
+				button.active = ((Gtk.RadioMenuItem)item).get_active ();
 			}
-            (item as Gtk.CheckMenuItem).notify["label"].connect (() => {
-                (button as Gtk.ModelButton).text= ((item as Gtk.MenuItem).get_label ().replace ("_", ""));
+            ((Gtk.CheckMenuItem)item).notify["label"].connect (() => {
+                button.text= ((Gtk.MenuItem)item).get_label ().replace ("_", "");
             });
 
 			button.set_state_flags(state,true); 
 			
-            var submenu = (item as Gtk.MenuItem).submenu;
+            var submenu = ((Gtk.MenuItem)item).submenu;
 
             if (submenu != null) {
                 var scroll_sub = new Gtk.ScrolledWindow (null, null);
